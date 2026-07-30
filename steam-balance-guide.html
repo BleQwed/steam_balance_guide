@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Выгодное пополнение баланса Steam</title>
+<style>
+  :root{
+    --bg-0:#0e1a24;
+    --bg-1:#131f2b;
+    --bg-2:#1b2a38;
+    --panel:#17242f;
+    --line: rgba(148,180,204,0.14);
+    --ink:#dbe7ef;
+    --ink-dim:#8fa6b8;
+    --steam-blue:#4b90d1;
+    --steam-cyan:#66c0f4;
+    --gold:#e5b34c;
+    --green:#7fbf4d;
+    --red:#c25b5b;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+    background:
+      radial-gradient(1200px 600px at 15% -10%, rgba(75,144,209,0.10), transparent 60%),
+      radial-gradient(900px 500px at 100% 0%, rgba(102,192,244,0.08), transparent 55%),
+      linear-gradient(180deg, var(--bg-0), var(--bg-1) 40%, var(--bg-0));
+    color:var(--ink);
+    line-height:1.65;
+  }
+
+  /* ===== Header ===== */
+  .hero{
+    position:relative;
+    padding: 72px 24px 56px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 42px 42px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 20%, black 20%, transparent 75%);
+    opacity:0.5;
+  }
+  .eyebrow{
+    position:relative;
+    display:inline-block;
+    font-size:12px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--steam-cyan);
+    border:1px solid rgba(102,192,244,0.35);
+    padding:6px 14px;
+    border-radius:999px;
+    background:rgba(102,192,244,0.06);
+  }
+  .hero h1{
+    position:relative;
+    font-size: clamp(28px, 4.6vw, 46px);
+    margin:22px 0 12px;
+    font-weight:700;
+    letter-spacing:-0.01em;
+    background: linear-gradient(95deg, #eaf3fa 20%, var(--steam-cyan) 60%, #eaf3fa 90%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .hero p.sub{
+    position:relative;
+    max-width:640px;
+    margin:0 auto;
+    color:var(--ink-dim);
+    font-size:16px;
+  }
+
+  /* ===== Container ===== */
+  .wrap{ max-width: 860px; margin: 0 auto; padding: 56px 24px 90px; }
+
+  .section-label{
+    display:flex; align-items:center; gap:12px;
+    margin: 46px 0 18px;
+  }
+  .section-label .tag{
+    font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--steam-cyan); white-space:nowrap; font-weight:600;
+  }
+  .section-label .rule{ height:1px; flex:1; background:linear-gradient(90deg, var(--line), transparent); }
+
+  .card{
+    background: linear-gradient(180deg, var(--panel), var(--bg-2));
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding: 26px 28px;
+    margin-bottom: 18px;
+    box-shadow: 0 12px 30px -18px rgba(0,0,0,0.6);
+  }
+  .card h2{
+    margin:0 0 12px;
+    font-size:20px;
+    color:#eef5fa;
+    display:flex; align-items:center; gap:10px;
+  }
+  .card h2 .dot{
+    width:8px; height:8px; border-radius:50%;
+    background: var(--steam-cyan);
+    box-shadow:0 0 10px var(--steam-cyan);
+    flex-shrink:0;
+  }
+  .card p{ margin: 0 0 12px; color: var(--ink); }
+  .card p:last-child{ margin-bottom:0; }
+
+  .lede{
+    font-size:17px;
+    color:#eaf2f8;
+    border-left:3px solid var(--steam-blue);
+    padding: 4px 0 4px 18px;
+  }
+
+  .callout{
+    background: rgba(229,179,76,0.06);
+    border:1px solid rgba(229,179,76,0.28);
+    border-left:3px solid var(--gold);
+    border-radius:8px;
+    padding:16px 20px;
+    margin: 18px 0;
+    color:#f1e3c4;
+  }
+  .callout strong{ color:var(--gold); }
+
+  .example-box{
+    background: rgba(102,192,244,0.05);
+    border:1px dashed rgba(102,192,244,0.35);
+    border-radius:8px;
+    padding:16px 20px;
+    margin:16px 0;
+    font-size:15px;
+  }
+  .example-box .rate{
+    display:flex; justify-content:space-between; padding:4px 0;
+    border-bottom:1px dotted var(--line);
+  }
+  .example-box .rate:last-child{ border-bottom:none; }
+  .example-box .rate span:first-child{ color:var(--ink-dim); }
+  .example-box .rate span:last-child{ font-weight:600; color:var(--steam-cyan); }
+
+  .stat-row{
+    display:flex; gap:14px; flex-wrap:wrap; margin: 16px 0 4px;
+  }
+  .stat{
+    flex:1; min-width:130px;
+    background: var(--bg-1);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:14px 16px;
+    text-align:center;
+  }
+  .stat .num{ font-size:22px; font-weight:700; color:var(--green); }
+  .stat .num.neg{ color:var(--red); }
+  .stat .lbl{ font-size:12px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:.06em; margin-top:4px;}
+
+  .platform-card{
+    background: linear-gradient(180deg, var(--panel), var(--bg-2));
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:26px 28px;
+    margin-bottom:18px;
+    position:relative;
+  }
+  .platform-card .badge{
+    position:absolute; top:-11px; left:24px;
+    background: var(--steam-blue);
+    color:#0b131a;
+    font-size:11px; font-weight:700; letter-spacing:.06em;
+    text-transform:uppercase;
+    padding:4px 12px;
+    border-radius:999px;
+  }
+  .platform-card h3{ margin: 10px 0 12px; font-size:19px; color:#eef5fa;}
+  .fee-list{ list-style:none; margin:14px 0 0; padding:0; }
+  .fee-list li{
+    display:flex; justify-content:space-between;
+    padding:9px 0; border-bottom:1px solid var(--line);
+    font-size:14.5px;
+  }
+  .fee-list li:last-child{ border-bottom:none; }
+  .fee-list li span:last-child{ color:var(--steam-cyan); font-weight:600; }
+
+  .warning-card{
+    background: rgba(194,91,91,0.07);
+    border:1px solid rgba(194,91,91,0.35);
+    border-radius:10px;
+    padding: 26px 28px;
+  }
+  .warning-card h2{ color:#f0c2c2; }
+  .warning-card h2 .dot{ background:var(--red); box-shadow:0 0 10px var(--red);}
+  .warning-card ul{ margin:10px 0 0; padding-left:20px; }
+  .warning-card li{ margin-bottom:10px; color:#eadada; }
+  .warning-card li:last-child{ margin-bottom:0; }
+
+  /* ===== Mentor block ===== */
+  .mentor-section{
+    margin-top:64px;
+    background:
+      radial-gradient(700px 300px at 20% 0%, rgba(229,179,76,0.08), transparent 60%),
+      linear-gradient(180deg, #1a2530, #131c25);
+    border:1px solid rgba(229,179,76,0.25);
+    border-radius:14px;
+    padding: 40px 36px 36px;
+    position:relative;
+    overflow:hidden;
+  }
+  .mentor-section::before{
+    content:"";
+    position:absolute; top:-40px; right:-40px;
+    width:180px; height:180px; border-radius:50%;
+    background: radial-gradient(circle, rgba(229,179,76,0.18), transparent 70%);
+  }
+  .mentor-section h2.mentor-title{
+    position:relative;
+    font-size: clamp(24px, 3vw, 30px);
+    margin:0 0 6px;
+    color:#f4e6c4;
+    font-weight:700;
+  }
+  .mentor-section .mentor-sub{
+    position:relative;
+    font-size:17px; color:var(--ink); margin-bottom:22px;
+  }
+  .mentor-highlight{
+    position:relative;
+    background: rgba(229,179,76,0.08);
+    border-left:3px solid var(--gold);
+    border-radius:8px;
+    padding:18px 22px;
+    margin-bottom:20px;
+  }
+  .mentor-highlight p{ margin:0 0 10px; color:#f1e6cd; }
+  .mentor-highlight p:last-child{ margin-bottom:0; }
+  .mentor-highlight strong{ color:var(--gold); }
+
+  .mentor-section > p{ position:relative; color:var(--ink); margin: 0 0 20px; }
+
+  .check-list{ list-style:none; margin:0 0 22px; padding:0; position:relative; }
+  .check-list li{
+    display:flex; align-items:flex-start; gap:10px;
+    padding:10px 0; border-bottom:1px solid var(--line);
+    color:var(--ink); font-size:15px;
+  }
+  .check-list li:last-child{ border-bottom:none; }
+  .check-list li::before{
+    content:"✓";
+    color: var(--green);
+    font-weight:700;
+    flex-shrink:0;
+    margin-top:1px;
+  }
+
+  .mentor-closer{
+    position:relative;
+    font-size:18px !important;
+    color:#eef5fa !important;
+    margin-bottom:28px !important;
+  }
+
+  .contact-row{
+    position:relative;
+    display:flex; flex-wrap:wrap; align-items:center;
+    gap:12px; margin-top:14px;
+  }
+  .contact-row .contact-label{ font-weight:600; font-size:15px; color:var(--ink); }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:10px 20px;
+    border-radius:8px;
+    font-weight:700;
+    font-size:15px;
+    text-decoration:none;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{ transform: translateY(-1px); }
+  .btn-telegram{
+    background: linear-gradient(180deg, var(--steam-cyan), var(--steam-blue));
+    color:#0b131a;
+    box-shadow: 0 8px 20px -8px rgba(102,192,244,0.5);
+  }
+  .btn-channel{
+    background: transparent;
+    border:1px solid rgba(102,192,244,0.4);
+    color: var(--steam-cyan);
+  }
+  .btn-channel:hover{ background: rgba(102,192,244,0.08); }
+
+  footer{
+    text-align:center;
+    padding: 30px 24px 50px;
+    color: var(--ink-dim);
+    font-size:13px;
+  }
+
+  @media (max-width:560px){
+    .card, .platform-card, .warning-card{ padding:20px 18px; }
+    .mentor-section{ padding:28px 20px 26px; }
+    .contact-row{ flex-direction:column; align-items:flex-start; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .btn{ transition:none; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="hero">
+    <span class="eyebrow">Steam Wallet · Гайд</span>
+    <h1>Выгодное пополнение баланса в Steam</h1>
+    <p class="sub">Разбор того, почему баланс Steam не равен реальным деньгам, и как это использовать при пополнении и выводе.</p>
+  </div>
+
+  <div class="wrap">
+
+    <div class="section-label">
+      <span class="tag">Основы</span>
+      <div class="rule"></div>
+    </div>
+
+    <div class="card">
+      <p class="lede">Баланс Steam не приравнивается к реальному балансу. Ввод денег обычно происходит под каким-то процентом плюса, а при выводе часть этого процента теряется.</p>
+      <p>По итогу пополнение и вывод друг друга нивелируют — вы выходите в ноль. Если же игнорировать выгодное пополнение и просто закинуть деньги с банковской карты напрямую, вы изначально загоняете себя в минус.</p>
+    </div>
+
+    <div class="card">
+      <h2><span class="dot"></span>От чего зависит процент</h2>
+      <p>Процент плюса, который можно получить при пополнении, зависит от рынка. В течение года бывают периоды, когда пополнение приносит +50–60%, а иногда хорошим показателем считается уже +20%.</p>
+      <div class="stat-row">
+        <div class="stat"><div class="num">+50–60%</div><div class="lbl">В удачный период</div></div>
+        <div class="stat"><div class="num">+20%</div><div class="lbl">Обычно, «хороший» показатель</div></div>
+        <div class="stat"><div class="num neg">−20–30%</div><div class="lbl">Потери при выводе</div></div>
+      </div>
+      <p style="margin-top:14px;">Вывод тоже подстраивается под пополняемый баланс: порой при выводе теряется 20–30%, а иногда вывести можно даже в плюс. На состояние рынка влияют события в игре, распродажи в Steam и другие факторы.</p>
+    </div>
+
+    <div class="callout">
+      <strong>Санкционный нюанс.</strong> Пополнение с российской карты на большинстве сторонних торговых площадок сейчас недоступно — приходится использовать криптовалюту. А разница между биржевым курсом доллара и курсом USDT бывает значительной.
+    </div>
+
+    <div class="card">
+      <h2><span class="dot"></span>Пример расчёта</h2>
+      <p>Как это выглядит на практике:</p>
+      <div class="example-box">
+        <div class="rate"><span>Доллар на бирже</span><span>82 ₽</span></div>
+        <div class="rate"><span>Курс в Steam</span><span>82 ₽</span></div>
+        <div class="rate"><span>USDT (для пополнения площадки)</span><span>85 ₽</span></div>
+      </div>
+      <p>Таким образом уже теряются потенциальные 4% плюса, которые можно было бы получить, если бы рынок находился в обычном состоянии. Если вы работаете с такими сайтами — все потери при пополнении нужно просчитывать заранее, чтобы не облажаться.</p>
+    </div>
+
+    <div class="section-label">
+      <span class="tag">Площадки</span>
+      <div class="rule"></div>
+    </div>
+
+    <div class="platform-card">
+      <span class="badge">Для РФ</span>
+      <h3>Lis-Skins</h3>
+      <p>Один из самых простых способов пополнения Steam, если вы живёте в России. Вход через аккаунт Steam — и можно сразу приступать к пополнению баланса.</p>
+      <ul class="fee-list">
+        <li><span>Оплата картой МИР / СБП</span><span>доступна</span></li>
+        <li><span>Комиссия СБП</span><span>~1%</span></li>
+        <li><span>Комиссия с карты</span><span>~3–3.4%</span></li>
+        <li><span>Пополнение криптой</span><span>доступно</span></li>
+      </ul>
+      <p style="margin-top:14px;">Чаще всего именно на этом сайте многие скины стоят заметно дешевле аналогов, а для русскоязычного комьюнити это ещё и максимально удобно.</p>
+    </div>
+
+    <div class="platform-card">
+      <span class="badge">Крупнейшая площадка</span>
+      <h3>Buff163</h3>
+      <p>Самая крупная китайская сторонняя торговая площадка в 2026 году с наибольшими объёмами продаж и покупок. В зависимости от периода на рынке, через неё можно пополнить счёт от +20 до +60% чистыми по Steam.</p>
+      <ul class="fee-list">
+        <li><span>Требуется верификация</span><span>да, под китайского пользователя</span></li>
+        <li><span>Кошелёк для покупок</span><span>Alipay</span></li>
+        <li><span>Продажа без верификации</span><span>недоступна</span></li>
+        <li><span>Вывод на карту без верификации</span><span>недоступен</span></li>
+      </ul>
+      <p style="margin-top:14px;">Чтобы пополнить баланс без верификации, можно покупать выгодные скины на других маркетах и перепродавать их на Buff163.</p>
+    </div>
+
+    <div class="card">
+      <h2><span class="dot"></span>Другие площадки</h2>
+      <p>У каждой площадки свои условия, плюсы и минусы. Если хотите искать лучшие варианты и увеличивать процент прибыли — нужно постоянно мониторить рынок, но и простых схем вполне достаточно, чтобы кратно увеличивать свой баланс.</p>
+      <p>Чтобы понимать, на какой площадке выгоднее всего закупиться под конкретный круг сделок, удобно использовать таблицу для сравнения цен между сайтами.</p>
+    </div>
+
+    <div class="section-label">
+      <span class="tag">Осторожно</span>
+      <div class="rule"></div>
+    </div>
+
+    <div class="warning-card">
+      <h2><span class="dot"></span>Чего делать не стоит</h2>
+      <ul>
+        <li>Покупать вещи с рук по заниженной цене у случайных людей — соблазн велик, но на серьёзных объёмах и в долгосрочной перспективе лучше работать только с проверенными площадками, не увеличивая риски ради лишних 10%.</li>
+        <li>Отвечать случайным пользователям, которые добавляются в Steam и предлагают «супер выгодный» обмен или сделку — в подавляющем большинстве случаев это мошенничество.</li>
+        <li>Переходить по ссылкам из таких диалогов — лучше вообще не начинать переписку и сразу добавлять отправителя в чёрный список, чтобы не потерять всё содержимое аккаунта.</li>
+      </ul>
+    </div>
+
+    <!-- ===== БЛОК НАСТАВНИЧЕСТВА ===== -->
+    <div class="mentor-section">
+      <h2 class="mentor-title">Хотите больше?</h2>
+      <p class="mentor-sub">Кроме этой схемы есть <strong>другие варианты трейда</strong>, о которых я рассказываю в наставничестве.</p>
+
+      <div class="mentor-highlight">
+        <p>Мой опыт в Steam — <strong>более 6 лет</strong>. Благодаря этому рынку я вышел на доход <strong>300 000 ₽+</strong> и живу свою лучшую жизнь.</p>
+        <p>Сейчас я хочу научить этому людей, которые относятся к этому рынку скептически. Это моя главная миссия с 2025 года, поэтому я трепетно отношусь к каждому своему ученику.</p>
+      </div>
+
+      <p>Я <strong>не продаю банальный курс</strong>, где наставники забивают на учеников. Я трачу много времени лично на каждого и предлагаю <strong>полное обучение трейдингу, инвестициям и пониманию рынка</strong>.</p>
+
+      <ul class="check-list">
+        <li>Быстро информирую о бустах, ночных обновлениях, изменениях в экономике CS2</li>
+        <li>Рассказываю, что в эти моменты нужно покупать, продавать или продолжать держать в инвентаре</li>
+        <li>Полностью держу на себе мониторинг рынка и <strong>вашего инвентаря</strong></li>
+        <li><strong>Выдаю доступ ко всей базе знаний за 6 лет активной торговли</strong> — к которой можно обращаться самостоятельно</li>
+      </ul>
+
+      <p class="mentor-closer">Обучу с <strong>полного 0</strong>, закрою все вопросы и помогу выработать самостоятельное видение рынка.</p>
+
+      <div class="contact-row">
+        <span class="contact-label">Подробнее по наставничеству — лично в Telegram:</span>
+        <a href="https://t.me/BQVlad" target="_blank" class="btn btn-telegram">@BQVlad</a>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">Мой телеграм-канал по рынку CS2:</span>
+        <a href="https://t.me/bleqwed_club" target="_blank" class="btn btn-channel">Все про рынок CS2</a>
+      </div>
+    </div>
+    <!-- ===== КОНЕЦ БЛОКА НАСТАВНИЧЕСТВА ===== -->
+
+  </div>
+
+  <footer>Оформлено в стилистике Steam · только для чтения информации</footer>
+
+</body>
+</html>
